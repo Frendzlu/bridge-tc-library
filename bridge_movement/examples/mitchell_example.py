@@ -2,15 +2,20 @@ from bridge_movement.movements.mitchell import MitchellMovement
 from bridge_movement.tournament.sector import Sector
 from bridge_movement.tournament.table import Table
 from bridge_movement.core import Position
+from bridge_movement.movements.board_group_movement import BoardGroupMovement
 
 
-def print_round(movement, tables, r):
+def print_round(movement, tables, r, bg_movement=None):
 	print(f"Round {r}")
 	sitting = movement.get_round_sitting(r, tables=tables)
 	for tbl in tables:
 		ns = sitting[tbl][Position.NS]
 		ew = sitting[tbl][Position.EW]
 		print(f"  Table {tbl.table_id}: NS={ns}  EW={ew}")
+	if bg_movement:
+		boards = bg_movement.boards_for_round(r)
+		for tbl in tables:
+			print(f"    Table {tbl.table_id} board: {boards[tbl.table_id]}")
 	print()
 
 
@@ -36,12 +41,13 @@ if __name__ == '__main__':
 	sector = Sector('Example')
 	tables = [Table(i + 1, sector) for i in range(movement.num_tables)]
 
+	bg = BoardGroupMovement(num_boards=16, num_tables=movement.num_tables)
+
 	print(f"Mitchell movements example: {movement.num_tables} tables, {len(movement.pair_rounds)} rounds\n")
 
 	# Print all round sittings
 	for r in range(1, len(movement.pair_rounds) + 1):
-		print_round(movement, tables, r)
+		print_round(movement, tables, r, bg_movement=bg)
 
 	# Print movements strategy (changes between rounds)
 	print_strategy(movement, tables)
-

@@ -1,19 +1,54 @@
-from typing import List, Optional, Any, Tuple
+from typing import List, Optional, Any, Tuple, Dict
+from abc import ABC, abstractmethod
 from .strategy import MovementStrategy
 from bridge_movement.core import Position
 
 
-class MovementGenerator:
+class MovementGenerator(ABC):
 	"""
 	Common helper class for movement generators.
-	Subclasses must provide:
-	- self.pair_rounds: List[dict] keyed by (table_index, 'NS'/'EW') -> pair id (or Pair)
-	- self.num_tables: int
+	Podklasy powinny zaimplementować:
+	- initial_round() -> Dict[(table_index, 'NS'/'EW'), pair]
+	- step(round_map) -> next round map
 	"""
+	# annotate num_tables so static checkers know it exists on subclasses
+	num_tables: int
+
+	def __init__(self):
+		# subclasses must set self.num_tables
+		self._pair_rounds_cache: Optional[List[Dict[Tuple[int, str], Any]]] = None
+
+	@abstractmethod
+	def initial_round(self) -> Dict[Tuple[int, str], Any]:
+		raise NotImplementedError
+
+	@abstractmethod
+	def step(self, round_map: Dict[Tuple[int, str], Any]) -> Dict[Tuple[int, str], Any]:
+		raise NotImplementedError
+
+	@property
+	def pair_rounds(self) -> List[Dict[Tuple[int, str], Any]]:
+		# support subclasses that don't call super().__init__ by using getattr/setattr
+		if getattr(self, '_pair_rounds_cache', None) is None:
+			rounds: List[Dict[Tuple[int, str], Any]] = []
+			seen: List[Dict[Tuple[int, str], Any]] = []
+			curr = self.initial_round()
+			while True:
+				# stop when a configuration repeats
+				if any(curr == r for r in seen):
+					break
+				rounds.append(curr)
+				seen.append(curr)
+				curr = self.step(curr)
+			setattr(self, '_pair_rounds_cache', rounds)
+		return getattr(self, '_pair_rounds_cache')
+
 	def get_round_sitting(self, round_number: int, tables: Optional[List[Any]] = None):
-		idx = round_number - 1
-		if idx < 0 or idx >= len(self.pair_rounds):
-			raise StopIteration("Round out of range")
+		if round_number < 1:
+			raise StopIteration("Round numbers start at 1")
+		if not self.pair_rounds:
+			raise StopIteration("No rounds available")
+		idx = (round_number - 1) % len(self.pair_rounds)
 		round_map = self.pair_rounds[idx]
 		if not tables:
 			return round_map
@@ -30,18 +65,12 @@ class MovementGenerator:
 		return out
 
 	def get_movement_strategy(self, tables: Optional[List[Any]] = None) -> MovementStrategy:
-		"""
-		Return a single canonical MovStrat that applies to all rounds.
-		We compute the canonical change_list by comparing the first round to the next
-		round (round 1 -> round 2, using wrap if necessary). This yields the per-round
-		movement pattern which we then apply to every round number.
-		"""
 		n = len(self.pair_rounds)
 		if n == 0:
 			return MovementStrategy([])
 		# choose reference transition curr -> next (round 1 -> round 2)
 		curr = self.pair_rounds[0]
-		next_round = self.pair_rounds[1 % n]
+		next_round = self.pair_rounds[(0 + 1) % n]
 		changes: List[Tuple[Tuple[Any, Position], Tuple[Any, Position]]] = []
 		for (table_pos), p in next_round.items():
 			# find where this pair was in curr
