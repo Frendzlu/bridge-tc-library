@@ -81,7 +81,8 @@ class BoardGroupMovement:
             out[i] = group.boards
         return out
 
-    def board_group_id_for_round(self, round_index: int) -> Dict[int, int]:
+#this does not work, look at it when you will have time Mateusz
+    def board_group_ids_for_round(self, round_index: int) -> Dict[int, int]:
         """Return mapping table_index->board_group_id for given round_index (1-based rounds).
         """
         if round_index < 1:
@@ -99,8 +100,8 @@ class BoardGroupMovement:
 
         If a board_group is not present on any table (e.g. groups shorter than num_tables), it will be omitted.
         """
-        a_map = self.board_group_id_for_round(round_a)
-        b_map = self.board_group_id_for_round(round_b)
+        a_map = self.board_group_ids_for_round(round_a)
+        b_map = self.board_group_ids_for_round(round_b)
         inv_a: Dict[int, int] = {b: t for t, b in a_map.items() if b is not None}
         inv_b: Dict[int, int] = {b: t for t, b in b_map.items() if b is not None}
         movement: Dict[int, Tuple[int, int]] = {}
