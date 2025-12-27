@@ -41,13 +41,15 @@ class BoardGroupMovement:
                 sizes += [0] * (self.num_tables - len(sizes))
         groups: List[BoardGroup] = []
         cur = 1
-        for idx in sizes:
-            if idx <= 0:
+        cur_idx = 1
+        for sz in sizes:
+            if sz <= 0:
                 groups.append(BoardGroup(int, tuple()))
                 continue
-            boards = tuple(range(cur, cur + idx))
-            groups.append(BoardGroup(idx, boards))
-            cur += idx
+            boards = tuple(range(cur, cur + sz))
+            groups.append(BoardGroup(cur_idx, boards))
+            cur += sz
+            cur_idx += 1
         return groups
 
     def first_board_for_round(self, round_index: int) -> Dict[int, int]:
