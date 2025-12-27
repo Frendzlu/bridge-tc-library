@@ -8,27 +8,30 @@ class MovementStrategy:
     """
     Movement strategy container.
 
-    Internally stores a list of 2-tuples: (change_list, rounds_list)
-    - change_list: list of tuples ((Table, Position), (Table, Position)) indicating pair moves (from, to)
+    Internally stores a list of 2-tuples: (player_change_list, board_change_list, rounds_list)
+    - player_change_list: list of tuples ((Table, Position), (Table, Position)) indicating pair moves (from, to)
+    - board_change_list: list of tuples (Table, Table) indicating board moves (from, to)
     - rounds_list: list[int] specifying rounds when this change_list applies
     """
 
-    def __init__(self, strategies: List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[int]]]):
+    def __init__(self, strategies: List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[Tuple['Table', 'Table']], List[int]]]):
         # minimal structural validation
         if not isinstance(strategies, list):
             raise TypeError("MovStrat expects a list of (change_list, rounds_list) tuples")
         self.strategies = []
         for item in strategies:
-            if not (isinstance(item, tuple) or isinstance(item, list)) or len(item) != 2:
-                raise TypeError("each strategy must be a 2-tuple: (change_list, rounds_list)")
-            change_list, rounds = item
-            if not isinstance(change_list, list):
-                raise TypeError("change_list must be a list")
+            if not (isinstance(item, tuple) or isinstance(item, list)) or len(item) != 3:
+                raise TypeError("each strategy must be a 3-tuple: (player_change_list, board_change_list, rounds_list)")
+            player_change_list, board_change_list, rounds = item
+            if not isinstance(player_change_list, list):
+                raise TypeError("player_change_list must be a list")
+            if not isinstance(board_change_list, list):
+                raise TypeError("board_change_list must be a list")
             if not isinstance(rounds, list):
                 raise TypeError("rounds must be a list of ints")
-            self.strategies.append((change_list, rounds))
+            self.strategies.append((player_change_list, board_change_list, rounds))
 
-    def as_list(self) -> List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[int]]]:
+    def as_list(self) -> List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[Tuple['Table', 'Table']], List[int]]]:
         return self.strategies
 
     def __repr__(self) -> str:

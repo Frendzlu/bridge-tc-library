@@ -10,12 +10,12 @@ if TYPE_CHECKING:
 
 class BaseMovement:
     tables: list['Table']
-    boards: list['BoardGroup']
+    board_groups: list['BoardGroup']
     pairs: list['Pair']
 
-    def __init__(self, tables: list['Table'], boards: list[BoardGroup], pairs: list[Pair], movement_strategies: MovementStrategy):
+    def __init__(self, tables: list['Table'], board_groups: list['BoardGroup'], pairs: list[Pair], movement_strategies: MovementStrategy):
         self.tables = tables
-        self.boards = boards
+        self.board_groups = board_groups
         self.pairs = pairs
         self.movement_strategies = movement_strategies
 
@@ -23,11 +23,23 @@ class BaseMovement:
         """
         {(table_name, position): Pair}
         """
+        
         pass
 
-    def get_boards_for_round(self, current_boards: dict) -> dict:
+    def get_boards_for_round(self, round_number: int) -> Dict['Table', 'BoardGroup']:
         """
         {table_name: BoardGroup}
         """
         pass
 
+    def construct_movement(self, rounds: int) -> Dict[int, Dict['Table', Dict[Position, Pair], 'BoardGroup']]:
+        """
+        Docstring for construct_movement
+        
+        :param self: Description
+        :param rounds: Description
+        :type rounds: int
+        :return: Description
+        :rtype: Dict[int, Dict[Table, Dict[Position, Pair]]]
+        """
+        pass

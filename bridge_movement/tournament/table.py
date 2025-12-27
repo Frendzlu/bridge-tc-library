@@ -5,9 +5,10 @@ if TYPE_CHECKING:
     from bridge_movement import Pair, Position, BoardGroup
 
 class Table:
-    def __init__(self, table_id: int, sector: 'Sector') -> None:
+    def __init__(self, table_id: int, sector: 'Sector', isplayable: bool = True) -> None:
         self.table_id: int = table_id
         self.sector: 'Sector' = sector
+        self.isplayable: bool = isplayable
         self.current_round: Optional[int] = None
         self.current_pairs: Optional[dict['Position', 'Pair']] = None
         self.current_board: Optional[int] = None
