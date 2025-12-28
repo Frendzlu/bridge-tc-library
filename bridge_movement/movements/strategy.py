@@ -13,6 +13,7 @@ class MovementStrategy:
     - board_change_list: list of tuples (Table, Table) indicating board moves (from, to)
     - rounds_list: list[int] specifying rounds when this change_list applies
     """
+    strategies: List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[Tuple['Table', 'Table']], List[int]]]
 
     def __init__(self, strategies: List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[Tuple['Table', 'Table']], List[int]]]):
         # minimal structural validation
@@ -33,6 +34,12 @@ class MovementStrategy:
 
     def as_list(self) -> List[Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[Tuple['Table', 'Table']], List[int]]]:
         return self.strategies
+    
+    def get_strategy_for_round(self, round_number: int) -> Tuple[List[Tuple[Tuple['Table', Position], Tuple['Table', Position]]], List[Tuple['Table', 'Table']]]:
+        for player_change_list, board_change_list, rounds in self.strategies:
+            if round_number in rounds:
+                return player_change_list, board_change_list
+        raise ValueError(f"No strategy defined for round {round_number}")
 
     def __repr__(self) -> str:
         return f"MovStrat({len(self.strategies)} strategies)"
