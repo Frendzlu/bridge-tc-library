@@ -1,6 +1,23 @@
 [project]
 name = "bridge-tc-library"
 version = "0.1.0"
+description = "Library for bridge tournament calculations and scoring"
+readme = "README.md"
+keywords = ["bridge", "tournament", "scoring"]
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"License :: OSI Approved :: MIT License",
+	"Operating System :: OS Independent",
+]
+license = { text = "MIT" }
+authors = [
+	{ name = "Frendzel" }
+    { name = "HalfRedBeard" }
+]
+
+[project.urls]
+Homepage = "https://example.com/bridge-tc-library"
+Repository = "https://github.com/frendzel/bridge-tc-library"
 
 [build-system]
 requires = ["setuptools"]
@@ -9,3 +26,6 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["bridge_tc_library", "bridge_tc_library.*"]
+
+[project.optional-dependencies]
+dev = ["pytest", "black"]
