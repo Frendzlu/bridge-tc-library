@@ -66,7 +66,9 @@ if __name__ == '__main__':
     print("first element of the first element of the returned tuple: a[0][0][0]")
     t = a[0][0][0]
     print(t)
-
-    initial = howell.HowellMovement(10)
+    print("looking at initial sitting:")
+    initial_sitting = movement.convert_initial_sitting()
+    print(initial_sitting)
+    """initial = howell.HowellMovement(10)
     print("Initial round map:")
-    print(initial.initial_round())
+    print(initial.initial_round())"""
