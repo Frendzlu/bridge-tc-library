@@ -4,7 +4,7 @@ except Exception:
     MovementStrategy = None  # type: ignore
 
 try:
-    from .rotation_calculator import RotationCalculator  # type: ignore
+    from .abstract_rotation import AbstractRotation  # type: ignore
 except Exception:
     RotationCalculator = None  # type: ignore
 

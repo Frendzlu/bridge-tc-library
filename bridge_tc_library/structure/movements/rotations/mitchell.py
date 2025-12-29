@@ -1,9 +1,11 @@
 from collections import deque
 from typing import List, Dict, Tuple, Any
-from bridge_tc_library.structure.movements.rotation_calculator import RotationCalculator
+
+from bridge_tc_library.structure import MovementStrategy
+from bridge_tc_library.structure.movements.abstract_rotation import AbstractRotation
 
 
-class MitchellMovement(RotationCalculator):
+class MitchellMovement(AbstractRotation):
 	"""
 	Standalone Mitchell movements generator inheriting shared helpers.
 	"""
@@ -13,5 +15,17 @@ class MitchellMovement(RotationCalculator):
 		self.num_pairs = num_pairs
 		self.min_boards_amount = min_boards_amount
 		self.max_boards_amount = max_boards_amount
-		self.pauza = self.check_if_pauza_needed(self.num_pairs)
+		self.pauza = self.check_if_bye_needed(self.num_pairs)
+
+	def check_if_can_handle(self, num_pairs: int, min_boards_amount: int, max_boards_amount: int) -> bool:
+		pass
+
+	def generate_strategy_for_rotation(self, num_pairs: int, rounds: int, boardgroup_sets: int) -> MovementStrategy:
+		pass
+
+	def generate_possibile_rotations_draft(self, num_pairs: int, min_boards_amount: int, max_boards_amount: int) -> \
+	List[Tuple[int, int, int]]:
+		pass
+
+
 	
