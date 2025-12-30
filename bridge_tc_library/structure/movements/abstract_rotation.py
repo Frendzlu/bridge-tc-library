@@ -14,13 +14,13 @@ class AbstractRotation(ABC):
 		self._pair_rounds_cache: Optional[List[Dict[Tuple[int, str], Any]]] = None
 
 	@abstractmethod
-	def check_if_can_handle(self, num_pairs: int, min_boards_amount: int, max_boards_amount: int) -> bool:
+	def check_if_can_handle(self, num_pairs: int, min_boards_amount: int, max_boards_amount: int, min_boards_per_boardgroup: int = 2) -> bool:
 		"""
 		Checks if the current rotation can handle the given number of pairs and boardgroups.
 		"""
 
 	@abstractmethod
-	def generate_possibile_rotations_draft(self, num_pairs: int, min_boards_amount: int, max_boards_amount: int) -> List[Tuple[int, int, int]]:
+	def generate_possibile_rotations_draft(self, num_pairs: int, max_boards_amount: int) -> List[Tuple[int, int, int]]:
 		"""
 		Generates possible rotation drafts.
 		This will generate a list of possible rotations in a draft format.
