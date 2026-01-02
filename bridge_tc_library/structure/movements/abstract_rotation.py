@@ -2,6 +2,7 @@ from typing import List, Optional, Any, Tuple, Dict
 from abc import ABC, abstractmethod
 from .strategy import MovementStrategy
 from bridge_tc_library.structure.core import Position
+from bridge_tc_library.structure.tournament import Table
 
 
 class AbstractRotation(ABC):
@@ -28,7 +29,7 @@ class AbstractRotation(ABC):
 		"""
 
 	@abstractmethod
-	def generate_strategy_for_rotation(self, num_pairs: int, rounds: int, boardgroup_sets: int) -> MovementStrategy:
+	def generate_strategy_for_rotation(self, num_pairs: int, num_rounds: int, num_boardgroup_sets: int, Tables: Tuple[Table], optional_arg: Optional[Any] = None) -> MovementStrategy:
 		"""
 		Generates movement strategy for the given rotation parameters.
 		"""
