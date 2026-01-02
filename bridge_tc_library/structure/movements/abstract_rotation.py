@@ -21,7 +21,7 @@ class AbstractRotation(ABC):
 	Abstract base class for rotation calculators.
 	"""
 
-	def __init__(self, tables: List['Table'], optionalint: Optional[int] = None):
+	def __init__(self, tables: List['Table']):
 		self.tables = tables
 		self._pair_rounds_cache: Optional[List[Dict[Tuple[int, str], Any]]] = None
 		
@@ -35,7 +35,7 @@ class AbstractRotation(ABC):
 		"""
 
 	@abstractmethod
-	def generate_strategy_for_rotation(self, rounds: int) -> MovementStrategy:
+	def generate_strategy_for_rotation(self, rounds: int, optionalint: Optional[int] = None) -> MovementStrategy:
 		"""
 		Generates movement strategy for the given number of rounds.
 		"""
