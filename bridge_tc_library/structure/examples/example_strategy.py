@@ -32,7 +32,7 @@ if __name__ == '__main__':
          (tables[1], tables[0])],
         [1, 2, 3, 4, 5, 6, 7]
     )])
-
+    """
     movement = BaseMovement(tables=tables, board_groups=board_groups, pairs=pairs, movement_strategies=howell_7rounds_4tables)
     sector.set_movement(movement)
 
@@ -47,16 +47,7 @@ if __name__ == '__main__':
     print(sector.get_sector_as_string_for_round(1))
     print(sector.get_sector_as_string_for_round(2))
     print(sector.get_sector_as_string_for_round(3))
-
-    print("range(5)")
-    for i in range(5):
-        print(i)
-    print("range(1,5)")
-    for i in range(1, 5):
-        print(i)
-    print("range(3,5)")
-    for i in range(3, 5):
-        print(i)
-    print("range(4,5)")
-    for i in range(4, 5):
+    """
+    print("range(4,13,-1)")
+    for i in range(13,4,-1):
         print(i)

@@ -80,6 +80,7 @@ class MitchellMovement(AbstractRotation):
 	def generate_possible_rotations(cls, num_pairs: int, min_boards_amount: int, max_boards_amount: int, min_boards_per_boardgroup: int) -> List[RotationParams]:
 		list_of_rotations: List[RotationParams] = []
 		num_tables = num_pairs // 2
+		num_rounds = num_tables
 		# Mitchell requires odd number of tables >= 3
 		if num_tables < 3 or num_tables % 2 == 0:
 			return list_of_rotations
@@ -87,7 +88,7 @@ class MitchellMovement(AbstractRotation):
 		while boards_per_boardgroup * num_tables <= max_boards_amount:
 			if boards_per_boardgroup * num_tables >= min_boards_amount:
 				# Mitchell always uses 1 boardgroup_set, num_board_groups = num_tables
-				list_of_rotations.append(RotationParams(num_tables, num_tables, boards_per_boardgroup))
+				list_of_rotations.append(RotationParams(num_rounds, num_tables, 1, boards_per_boardgroup))
 			boards_per_boardgroup += 1
 		return list_of_rotations
 	

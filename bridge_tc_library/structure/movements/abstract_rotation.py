@@ -9,7 +9,10 @@ if TYPE_CHECKING:
 
 
 class RotationParams(NamedTuple):
-	"""Parameters describing a possible rotation configuration."""
+	"""Parameters describing a possible rotation configuration.
+	(num_rounds: int, num_tables: int, num_board_groups: int, boards_per_board_group: int)
+	"""
+	num_rounds: int
 	num_tables: int
 	num_board_groups: int
 	boards_per_board_group: int
