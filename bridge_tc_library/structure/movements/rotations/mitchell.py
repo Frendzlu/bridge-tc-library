@@ -42,8 +42,8 @@ class MitchellMovement(AbstractRotation):
 			switch_round_num = 0
 
 
-		if switch_round_num > 0:
-			#check if we need to generate pre_switch strategy, when switch <= 0 we start rotation after the switch
+		if switch_round_num > 1:
+			#check if we need to generate pre_switch strategy if switch is after first round we have to
 			player_pre_switch_change_list: list[Tuple[Tuple[Table, Position], Tuple[Table, Position]]] = []
 			rounds_pre_switch_list: list[int] = []
 			for tn in range(len(self.tables)):
@@ -52,8 +52,9 @@ class MitchellMovement(AbstractRotation):
 			for r in range(1, switch_round_num - 1):
 				rounds_pre_switch_list.append(r) 
 			strategies.append(Tuple[player_pre_switch_change_list, board_change_list, rounds_pre_switch_list])
-			if switch_round_num < rounds:
-				#when we have any rounds pre_switch, check if we have a switch
+
+		if switch_round_num > 0:
+			if switch_round_num < rounds: #check if the first or any other rounds are switch
 				player_switch_change_list: list[Tuple[Tuple[Table, Position], Tuple[Table, Position]]] = []
 				rounds_switch_list: list[int] = []
 				for tn in range(len(self.tables)):
