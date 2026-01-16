@@ -1,4 +1,5 @@
 from typing import Optional, TYPE_CHECKING
+from collections import deque
 from bridge_tc_library.structure.core.status import Status
 
 if TYPE_CHECKING:
@@ -13,6 +14,7 @@ class Table:
         self.sector: Optional['Sector'] = sector
         self.og_sector: Optional['Sector'] = sector
         self.isplayable: bool = isplayable
+        self.stored_board_sets: Optional[deque[BoardGroup]] = None #for storage tables (nonplayable), to hold more than one boardgroup
         self.current_round: Optional[int] = None
         self.current_pairs: Optional[dict['Position', 'Pair']] = None
         self.current_board: Optional[int] = None
