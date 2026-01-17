@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from .sector import Sector
     from bridge_tc_library.structure.core import Pair, Position, BoardGroup
     
-
 class Table:
     def __init__(self, table_id: int, sector: Optional['Sector'] = None, isplayable: bool = True) -> None:
         self._table_id: int = table_id
@@ -14,7 +13,7 @@ class Table:
         self.sector: Optional['Sector'] = sector
         self.og_sector: Optional['Sector'] = sector
         self.isplayable: bool = isplayable
-        self.stored_board_sets: Optional[deque[BoardGroup]] = None #for storage tables (nonplayable), to hold more than one boardgroup
+        self.stored_board_sets: Optional[deque[BoardGroup]] = None #for storage tables (nonplayable), to hold more than one boardgroup, to be determined if playable tables will use it too
         self.current_round: Optional[int] = None
         self.current_pairs: Optional[dict['Position', 'Pair']] = None
         self.current_board: Optional[int] = None
@@ -40,6 +39,17 @@ class Table:
         if self.current_board_set.boards.index(self.current_board) + 1 > len(self.current_board_set.boards):
             next_index = self.current_board_set.boards.index(self.current_board) + 1
             self.current_board = self.current_board_set.boards[next_index]
+
+    def next_boardset_from_queue(self):
+        if len(self.stored_board_sets) == 0:
+            raise ValueError("board_set_queue is empty")
+        else:
+            self.current_board_set = self.stored_board_sets.pop()
+    
+    def add_boardset_to_queue(self, board_set: 'BoardGroup'):
+        if self.stored_board_sets == None:
+            self.stored_board_sets = deque()
+        self.stored_board_sets.appendleft(board_set)
 
     def __str__(self):
         if self.isplayable:

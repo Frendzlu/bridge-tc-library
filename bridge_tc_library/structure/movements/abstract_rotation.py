@@ -7,7 +7,6 @@ from bridge_tc_library.structure.tournament import Table
 if TYPE_CHECKING:
 	from bridge_tc_library.structure.tournament import Table
 
-
 class RotationParams(NamedTuple):
 	"""Parameters describing a possible rotation configuration.
 	(num_rounds: int, num_tables: int, num_board_groups: int, boards_per_board_group: int)
@@ -16,7 +15,6 @@ class RotationParams(NamedTuple):
 	num_tables: int
 	num_board_groups: int
 	boards_per_board_group: int
-
 
 class AbstractRotation(ABC):
 	num_tables: int
@@ -53,5 +51,12 @@ class AbstractRotation(ABC):
 			return True
 		else:
 			return False
-
 	
+	def separate_playable_tables(self, tables: list[Table]) -> tuple[list[Table], list[Table]]:
+		pass
+
+	def check_if_nonplayable_tables_needed(self):
+		pass
+
+	def create_non_playable_tables(self):
+		pass

@@ -79,10 +79,6 @@ class Sector:
 
 			target.change_sector(None)
 
-	def advance_round(self):
-		for table in self.tables:
-			table.next_round()
-
 	def exclude_storage_tables_from_numbering(self):
 		playable_tables = [t for t in self.tables if t.isplayable]
 		for idx, table in enumerate(playable_tables, start=1):
